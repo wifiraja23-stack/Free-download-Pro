@@ -20,11 +20,19 @@ jobs:
         java-version: '17'
         distribution: 'temurin'
 
-    - name: Setup Gradle
-      uses: gradle/actions/setup-gradle@v3
+    - name: Setup Android SDK
+      uses: android-actions/setup-android@v3
 
-    - name: Build Debug APK Directly
-      run: gradle assembleDebug
+    - name: Grant execute permission for gradlew
+      run: chmod +x gradlew || true
+
+    - name: Build with Gradle Wrapper or CLI
+      run: |
+        if [ -f "./gradlew" ]; then
+          ./gradlew assembleDebug --stacktrace
+        else
+          gradle assembleDebug --stacktrace
+        fi
 
     - name: Upload APK Artifact
       uses: actions/upload-artifact@v4
