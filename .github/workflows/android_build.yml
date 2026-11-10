@@ -20,13 +20,19 @@ jobs:
         java-version: '17'
         distribution: 'temurin'
 
-    - name: Build APK Directly
+    - name: Setup Android SDK Environment
+      uses: android-actions/setup-android@v3
+      with:
+        sdk-version: 34
+        build-tools-version: 34.0.0
+
+    - name: Build Debug APK
       run: |
         chmod +x gradlew || true
         if [ -f "./gradlew" ]; then
-          ./gradlew assembleDebug
+          ./gradlew assembleDebug --stacktrace
         else
-          gradle assembleDebug
+          gradle assembleDebug --stacktrace
         fi
 
     - name: Upload APK Artifact
