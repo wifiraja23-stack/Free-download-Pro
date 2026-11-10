@@ -20,20 +20,10 @@ jobs:
         java-version: '17'
         distribution: 'temurin'
 
-    - name: Setup Android SDK Environment
-      uses: android-actions/setup-android@v3
-      with:
-        sdk-version: 34
-        build-tools-version: 34.0.0
-
     - name: Build Debug APK
       run: |
-        chmod +x gradlew || true
-        if [ -f "./gradlew" ]; then
-          ./gradlew assembleDebug --stacktrace
-        else
-          gradle assembleDebug --stacktrace
-        fi
+        chmod +x gradlew
+        ./gradlew assembleDebug
 
     - name: Upload APK Artifact
       uses: actions/upload-artifact@v4
